@@ -6,12 +6,31 @@ import numpy as np
 
 transparent_color = (255, 255, 255, 0)
 
+def load_ImageTk(image_path):
+  pass
+
 def list_images_in_folder(input_folder):
   valid_images = []
   for curr_file in listdir(input_folder):
     if curr_file.lower().endswith((".jpeg", ".jpg", ".png")):
         valid_images.append(curr_file)
   return valid_images
+
+def get_avg_image_size(folder_name, image_list):
+  total_width = 0
+  total_height = 0
+  total_images = 0
+  for curr_file in image_list:
+    curr_file = joinpath(folder_name, curr_file)
+    image = Image.open(curr_file)
+    w, h = image.size
+    total_height += h
+    total_width += w
+    total_images += 1
+
+  avg_width = int(total_width/total_images)
+  avg_height = int(total_height/total_images)
+  return avg_width, avg_height
 
 def to_rgba(img):
   if img.mode != "RGBA":
