@@ -7,9 +7,9 @@ from PIL import Image, ImageDraw, ImageFont
 from os.path import dirname, join as joinpath
 from cv2 import imread, imshow, VideoWriter, VideoWriter_fourcc
 
-from video_generator import add_image_overlay, draw_text_to_image,\
+from ThayaThread.VideoGenerator.image_operations import add_image_overlay, draw_text_to_image,\
     list_images_in_folder, draw_rectange_over_image, draw_overlay, transparent_color,\
-    create_text_image, resize_image_by_width
+    create_text_image, resize_image_by_width, get_avg_image_size
 
 curr_dir = dirname(__file__)
 input_folder = joinpath(curr_dir, "Input")
@@ -31,7 +31,7 @@ class VideoGenerator:
     self.input_folder = input_folder
     self.valid_images = list_images_in_folder(input_folder)
     self.no_of_images = len(self.valid_images)
-    width, height = self.get_average_size_of_images()
+    width, height = get_avg_image_size(self.input_folder, self.valid_images)
     self.average_size = (width, height)
 
     self.mid_frames_per_image = self.frames_per_image(self.mid_duration_seconds)
@@ -53,23 +53,6 @@ class VideoGenerator:
         "size": 100
       }
     self.padding = padding
-
-
-  def get_average_size_of_images(self):
-    total_width = 0
-    total_height = 0
-    total_images = 0
-    for curr_file in self.valid_images:
-      curr_file = joinpath(self.input_folder, curr_file)
-      image = Image.open(curr_file)
-      w, h = image.size
-      total_height += h
-      total_width += w
-      total_images += 1
-
-    avg_width = int(total_width/total_images)
-    avg_height = int(total_height/total_images)
-    return avg_width, avg_height
 
   def resize_images(
         self,
@@ -170,5 +153,6 @@ class VideoGenerator:
     self.resize_images(input_folder, output_folder)
     self.create_video(output_folder)
 
-obj = VideoGenerator(input_folder)
-obj.run()
+if __file__ == "__main__":
+  obj = VideoGenerator(input_folder)
+  obj.run()
