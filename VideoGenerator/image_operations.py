@@ -9,6 +9,12 @@ transparent_color = (255, 255, 255, 0)
 def load_ImageTk(image_path):
   pass
 
+def open_rgba_image(image_path):
+  return Image.open(image_path).convert("RGBA")
+
+def new_layer(fill_color=transparent_color):
+  return Image.new("RGBA", (2000, 2000), fill_color)
+
 def list_images_in_folder(input_folder):
   valid_images = []
   for curr_file in listdir(input_folder):
@@ -87,6 +93,14 @@ def create_text_image(
   img = img.crop(bbox)
   return img
 
+def add_fill_background(img, fill_color):
+  layer = new_layer(fill_color)
+  crop_val = img.getbbox()
+  img = draw_overlay(
+    img, layer, (0, 0)
+  )
+  return img.crop(crop_val)
+
 def draw_overlay(
     bg_image,
     fg_image,
@@ -131,10 +145,6 @@ def draw_text_to_image(
     img.save("output.png")
     return img
 
-
-def get_rgba_image(image_path):
-  return Image.open(image_path).convert("RGBA")
-
 def resize_image(img, new_size, preserve_aspect_ratio=False):
   if(preserve_aspect_ratio):
     width, height = img.size
@@ -144,8 +154,8 @@ def resize_image(img, new_size, preserve_aspect_ratio=False):
   return img.resize(new_size)
 
 def add_image_overlay(background_image_path, foreground_image_path):
-  background_image = get_rgba_image(background_image_path)
-  foreground_image = get_rgba_image(foreground_image_path)
+  background_image = open_rgba_image(background_image_path)
+  foreground_image = open_rgba_image(foreground_image_path)
   foreground_image = resize_image(foreground_image_path, (100, 100), preserve_aspect_ratio=True)
   new_foreground_image = Image.new("RGBA", background_image.size)
   new_foreground_image.paste(foreground_image, (0,0), foreground_image)
