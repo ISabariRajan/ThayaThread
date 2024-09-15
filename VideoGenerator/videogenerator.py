@@ -7,9 +7,9 @@ from PIL import Image, ImageDraw, ImageFont
 from os.path import dirname, join as joinpath
 from cv2 import imread, imshow, VideoWriter, VideoWriter_fourcc
 
-from ThayaThread.VideoGenerator.image_operations import add_image_overlay, draw_text_to_image,\
+from VideoGenerator.image_operations import add_image_overlay, draw_text_to_image,\
     list_images_in_folder, draw_rectange_over_image, draw_overlay, transparent_color,\
-    create_text_image, resize_image_by_width, get_avg_image_size
+    create_text_image, resize_image_by_width, get_avg_image_size, new_layer
 
 curr_dir = dirname(__file__)
 input_folder = joinpath(curr_dir, "Input")
@@ -70,7 +70,7 @@ class VideoGenerator:
 
   def create_whatsapp_contact_image(self, contact_number):
     whatsapp_image = Image.open("assets/logo/whatsapp-logo.png")
-    bg_image = Image.new("RGBA", (2000, 2000), transparent_color)
+    bg_image = new_layer()
     bg_image = draw_overlay(bg_image, whatsapp_image, (0, 0), (100, 100))
     phone_number = create_text_image(contact_number, self.font_config)
     phone_number = resize_image_by_width(phone_number, 500)
