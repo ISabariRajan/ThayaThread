@@ -28,11 +28,6 @@ class ImageFrame:
     self.obj = shared_object
     self.logo_folder = Path(joinpath(cur_dir, "VideoGenerator", "assets", "logo"))
 
-  def export_vars(self, obj):
-    self.obj = obj
-    # obj.canvas1 = self.canvas1 = ""
-    # obj.canvas2 = self.canvas2 = ""
-
   def generate_frame(self, root):
     
     frame = Frame(root, highlightbackground="green", highlightthickness=2, height=600)
@@ -46,12 +41,14 @@ class ImageFrame:
     img = new_layer(fill_color=(255, 255, 255, 255))
     image_canvas_1 = tk.Canvas(frame, highlightbackground="blue", highlightthickness=2, height=600, width=400)
     image_canvas_1.grid(row=1, column=0, padx=30, sticky="n")
-    self.orig = ImageTk.PhotoImage(img)
-    image_canvas_1.create_image((0, 0), image=self.orig, anchor="nw")
+    self.obj.orig_image = img
+    self.obj.orig = ImageTk.PhotoImage(self.obj.orig_image)
+    image_canvas_1.create_image((0, 0), image=self.obj.orig, anchor="nw")
     self.obj.canvas1 = image_canvas_1
 
     image_canvas_2 = tk.Canvas(frame, highlightbackground="blue", highlightthickness=2, height=600, width=400)
     image_canvas_2.grid(row=1, column=1, padx=30, sticky="n")
-    self.updated = ImageTk.PhotoImage(img)
-    image_canvas_2.create_image((0, 0), image=self.updated, anchor="nw")
+    self.obj.updated_image = img
+    self.obj.updated = ImageTk.PhotoImage(self.obj.updated_image)
+    image_canvas_2.create_image((0, 0), image=self.obj.updated, anchor="nw")
     self.obj.canvas2 = image_canvas_2

@@ -96,10 +96,10 @@ def create_text_image(
 def add_fill_background(img, fill_color):
   layer = new_layer(fill_color)
   crop_val = img.getbbox()
-  img = draw_overlay(
+  new_img = draw_overlay(
     img, layer, (0, 0)
   )
-  return img.crop(crop_val)
+  return new_img.crop(crop_val)
 
 def draw_overlay(
     bg_image,
@@ -108,14 +108,14 @@ def draw_overlay(
     fg_image_resize=None,
     fg_image_preserve_ar=True
   ):
-  fg_image = to_rgba(fg_image)
-  bg_image = to_rgba(bg_image)
+  fg_img = to_rgba(fg_image)
+  bg_img = to_rgba(bg_image)
   if fg_image_resize:
-    fg_image = resize_image(fg_image, fg_image_resize, fg_image_preserve_ar)
-  new_fg_image = Image.new("RGBA", bg_image.size)
-  new_fg_image.paste(fg_image, fg_image_axis, fg_image)
-  bg_image.paste(new_fg_image, (0,0), mask=new_fg_image)
-  return Image.alpha_composite(bg_image, new_fg_image)
+    fg_img = resize_image(fg_img, fg_image_resize, fg_image_preserve_ar)
+  new_image = Image.new("RGBA", bg_img.size)
+  new_image.paste(fg_img, fg_image_axis, fg_img)
+  bg_img.paste(new_image, (0,0), mask=new_image)
+  return Image.alpha_composite(bg_img, new_image)
 
 def resize_image_by_width(
       img,
@@ -141,9 +141,7 @@ def draw_text_to_image(
     else:
       text_img_resize = None
 
-    img = draw_overlay(img, text_img,axis, fg_image_resize=text_img_resize)
-    img.save("output.png")
-    return img
+    return draw_overlay(img, text_img,axis, fg_image_resize=text_img_resize)
 
 def resize_image(img, new_size, preserve_aspect_ratio=False):
   if(preserve_aspect_ratio):

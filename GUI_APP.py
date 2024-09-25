@@ -14,6 +14,7 @@ from PIL import ImageTk
 from GUI.Frame.Operation import GUIOperationFrame
 from GUI.Frame.Image import ImageFrame
 from GUI.Frame.Controls import ControlFrame
+from GUI.Frame.Extra import ExtraFrame
 from GUI.Functions.guifunctions import GUIFunctions
 from json import loads, dumps
 from types import SimpleNamespace
@@ -39,7 +40,7 @@ class APP:
 
   
   def create_skeleton(self):
-    self.WIDGET.geometry("2000x1000+2800+100")
+    self.WIDGET.geometry("2000x1000+100+100")
     self.WIDGET.grid_columnconfigure(0, weight=1)
 
     heading_frame = Frame(self.WIDGET, highlightbackground="black", highlightthickness=3)
@@ -81,33 +82,24 @@ class APP:
   def generate_frame(self, root):
       # frame.generate_frame(self.running_frame)
     frame = Frame(root, highlightbackground="red", highlightthickness=3)
-    frame.columnconfigure(0, weight=5)
-    frame.columnconfigure(5, weight=5)
+    frame.columnconfigure(0, weight=4)
+    frame.columnconfigure(5, weight=2)
+    frame.columnconfigure(8, weight=10)
     frame.grid(row=0, column=0, sticky="nsew")
     img_frame = ImageFrame()
     gui_operation_frame = GUIOperationFrame()
     img_frame.generate_frame(frame)
     gui_operation_frame.generate_frame(frame)
-    # root.update()
-    # inner_frame_width = int(frame.winfo_width()/2)
 
-
-
-
-    # left_frame.pack()
-    right_frame = Frame(frame, highlightbackground="green", highlightthickness=2, height=600)
-    right_frame.grid(row=0, column=5, sticky="nsew", columnspan=5)
+    middle_frame = Frame(frame, highlightbackground="green", highlightthickness=2, height=600)
+    middle_frame.grid(row=0, column=5, sticky="nsew", columnspan=3)
     control_frame = ControlFrame()
-    control_frame.generate_frame(right_frame)
-    # right_frame.grid_propagate(False)
+    control_frame.generate_frame(middle_frame)
 
-    # update_button = tk.Button(frame, text="Download", command=lambda: self.download())
-    # update_button.grid(row=2, column=1, padx=50, pady=30)
-
-    # exit_button = tk.Button(frame, text="Exit", command=lambda: self.download())
-    # exit_button.grid(row=2, column=2, padx=50, pady=30)
-    # self.root.pack()
-    # frame.pack()
+    # right_frame = Frame(frame, highlightbackground="green", highlightthickness=2, height=600)
+    # right_frame.grid(row=0, column=8, sticky="nsew", columnspan=2)
+    # extra_frame = ExtraFrame()
+    # extra_frame.generate_frame(right_frame)
 
   def download(self):
     pass
