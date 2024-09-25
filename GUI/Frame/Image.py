@@ -11,10 +11,12 @@ from VideoGenerator.videogenerator import VideoGenerator
 from VideoGenerator.image_operations import list_images_in_folder, resize_image_by_width, \
   draw_overlay, open_rgba_image, new_layer, create_text_image, add_fill_background
 from PIL import ImageTk
-
+from GUI.globals import shared_object
 from json import loads, dumps
 from types import SimpleNamespace
 cur_dir = dirname(__file__)
+
+
 class ImageFrame:
 
   def __init__(self) -> None:
@@ -23,7 +25,13 @@ class ImageFrame:
         "name": "arial.ttf",
         "size": 100
       }
+    self.obj = shared_object
     self.logo_folder = Path(joinpath(cur_dir, "VideoGenerator", "assets", "logo"))
+
+  def export_vars(self, obj):
+    self.obj = obj
+    # obj.canvas1 = self.canvas1 = ""
+    # obj.canvas2 = self.canvas2 = ""
 
   def generate_frame(self, root):
     
@@ -39,13 +47,11 @@ class ImageFrame:
     image_canvas_1 = tk.Canvas(frame, highlightbackground="blue", highlightthickness=2, height=600, width=400)
     image_canvas_1.grid(row=1, column=0, padx=30, sticky="n")
     self.orig = ImageTk.PhotoImage(img)
-    # self.orig - tk.PhotoImage(image=img)
     image_canvas_1.create_image((0, 0), image=self.orig, anchor="nw")
-    self.canvas1 = image_canvas_1
+    self.obj.canvas1 = image_canvas_1
 
     image_canvas_2 = tk.Canvas(frame, highlightbackground="blue", highlightthickness=2, height=600, width=400)
     image_canvas_2.grid(row=1, column=1, padx=30, sticky="n")
     self.updated = ImageTk.PhotoImage(img)
-    # self.updated - tk.PhotoImage(image=img)
     image_canvas_2.create_image((0, 0), image=self.updated, anchor="nw")
-    self.canvas2 = image_canvas_2
+    self.obj.canvas2 = image_canvas_2
