@@ -18,9 +18,9 @@ from types import SimpleNamespace
 cur_dir = dirname(__file__)
 
 class GUIFunctions:
-  def add_logo_to_image(self, img):
-    logo_path = joinpath(self.logo_folder, "thaya-thread-logo-crop.png")
-    logo_img = open_rgba_image(logo_path)
+  def add_logo_to_image(self, img, logo_img):
+    # logo_path = joinpath(self.logo_folder, "thaya-thread-logo-crop.png")
+    # logo_img = open_rgba_image(logo_path)
     logo_img = add_fill_background(logo_img, (255, 255, 255, 200))
     logo_axis = (
       (int (img.width/2) - int(logo_img.width/2)),
@@ -33,8 +33,8 @@ class GUIFunctions:
       logo_axis
     )
 
-  def add_whatsapp_contact_to_image(self, img):
-    whatsapp_image = self.create_whatsapp_contact_image("+91-8015399392")
+  def add_whatsapp_contact_to_image(self, img, whatsapp_image):
+    whatsapp_image = self.create_whatsapp_contact_image("+91-8015399392", whatsapp_image)
     whatsapp_image.save("output.png")
     whatsapp_image_axis = (
         (img.width - 30 - whatsapp_image.width),
@@ -46,9 +46,9 @@ class GUIFunctions:
       whatsapp_image_axis
     )
 
-  def create_whatsapp_contact_image(self, contact_number):
-    logo_path = joinpath(self.logo_folder, "whatsapp-logo.png")
-    whatsapp_image = open_rgba_image(str(logo_path))
+  def create_whatsapp_contact_image(self, contact_number, whatsapp_image):
+    # logo_path = joinpath(self.logo_folder, "whatsapp-logo.png")
+    # whatsapp_image = open_rgba_image(str(logo_path))
     bg_image = new_layer((0,0,0,100))
     bg_image = draw_overlay(bg_image, whatsapp_image, (0, 0), (100, 100))
     phone_number = create_text_image(contact_number, self.font_config)
